@@ -1,100 +1,104 @@
-
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Master of Universe AI — Dashboard</title>
-  <link rel="stylesheet" href="./assets/style.css"/>
+  <meta charset="utf-8">
+  <title>Ayush Ultra AI (Darshan AI)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { background: linear-gradient(180deg,#00111a,#001a26); color:#e6f7ff; font-family: Arial, sans-serif; margin:0; padding:0; }
+    .app { max-width:880px; margin:40px auto; padding:20px; background:rgba(255,255,255,0.02); border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
+    h1 { color:#9be7ff; }
+    .chat { border:1px solid rgba(255,255,255,0.06); padding:10px; height:300px; overflow:auto; background:rgba(0,0,0,0.2); }
+    .controls { margin-top:12px; display:flex; gap:8px; }
+    input, button, textarea { padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); color:#e6f7ff; }
+  </style>
 </head>
 <body>
   <div class="app">
-    <header><h1>Master of Universe AI</h1></header>
-    <nav class="nav">
-      <button data-target="chat">AI Chat</button>
-      <button data-target="tutor">Tutor</button>
-      <button data-target="doctor">Doctor</button>
-      <button data-target="coding">Coding</button>
-      <button data-target="mentor">Mentor</button>
-      <button data-target="designer">Designer</button>
-      <button data-target="business">Business</button>
-      <button data-target="social">Social</button>
-      <button data-target="camera">Camera Coach</button>
-    </nav>
+    <h1>Ayush Ultra AI (Darshan AI)</h1>
+    <div id="user-info">Not logged in</div>
+    <div class="auth">
+      <input id="email" placeholder="email" />
+      <input id="password" placeholder="password" type="password" />
+      <button id="register">Register</button>
+      <button id="login">Login</button>
+      <button id="logout" style="display:none">Logout</button>
+    </div>
 
-    <main id="main">
-      <section id="home" class="panel">
-        <h2>Welcome</h2>
-        <p>Use the navigation to open the feature panels. This is a starter pack — connect your backend and OpenAI key to enable full functionality.</p>
-      </section>
+    <h3>Chat</h3>
+    <div class="chat" id="chat"></div>
+    <div class="controls">
+      <input id="msg" placeholder="Type your message" style="flex:1" />
+      <button id="send">Send</button>
+    </div>
 
-      <section id="chat" class="panel hidden">
-        <h2>AI Chat</h2>
-        <textarea id="chatPrompt" placeholder="Ask anything..."></textarea>
-        <button id="chatSend">Send</button>
-        <pre id="chatOut"></pre>
-      </section>
-
-      <section id="tutor" class="panel hidden">
-        <h2>AI Tutor (Class 7–12)</h2>
-        <input id="tutorTopic" placeholder="Enter topic or question"/>
-        <button id="tutorAsk">Ask Tutor</button>
-        <pre id="tutorOut"></pre>
-      </section>
-
-      <section id="doctor" class="panel hidden">
-        <h2>AI Doctor</h2>
-        <textarea id="docSymptoms" placeholder="Describe symptoms..."></textarea>
-        <button id="docAsk">Ask Doctor</button>
-        <pre id="doctorOut"></pre>
-      </section>
-
-      <section id="coding" class="panel hidden">
-        <h2>Coding Assistant</h2>
-        <textarea id="codePrompt" placeholder="Describe code task or paste code..."></textarea>
-        <button id="codeAsk">Ask Coding Assistant</button>
-        <pre id="codeOut"></pre>
-      </section>
-
-      <section id="mentor" class="panel hidden">
-        <h2>AI Mentor (Private)</h2>
-        <p>3D avatar placeholder (owner-only). This demo shows text-based mentor output.</p>
-        <button id="mentorStart">Get Mentor Tip</button>
-        <pre id="mentorOut"></pre>
-      </section>
-
-      <section id="designer" class="panel hidden">
-        <h2>Designer & Video</h2>
-        <input id="designPrompt" placeholder="Describe logo/poster/video edit..."/>
-        <button id="designAsk">Create</button>
-        <pre id="designOut"></pre>
-      </section>
-
-      <section id="business" class="panel hidden">
-        <h2>Business Coach</h2>
-        <input id="bizPrompt" placeholder="Startup idea or marketing question..."/>
-        <button id="bizAsk">Ask Business Coach</button>
-        <pre id="bizOut"></pre>
-      </section>
-
-      <section id="social" class="panel hidden">
-        <h2>Social Media Helper</h2>
-        <input id="socialPrompt" placeholder="Post idea or channel..."/>
-        <button id="socialAsk">Get Ideas</button>
-        <pre id="socialOut"></pre>
-      </section>
-
-      <section id="camera" class="panel hidden">
-        <h2>Camera Coach (Pose Detection)</h2>
-        <video id="video" width="480" height="360" autoplay playsinline></video>
-        <canvas id="overlay" width="480" height="360"></canvas>
-        <button id="startCamera">Start Camera</button>
-        <pre id="cameraOut"></pre>
-      </section>
-    </main>
-
-    <footer>Not a production app — starter pack. Add keys and deploy backend to enable features.</footer>
+    <h3>Extras</h3>
+    <div>
+      <input id="unlockKey" placeholder="Master Key (for premium)" />
+      <button id="unlock">Unlock Premium</button>
+      <input id="file" type="file" />
+      <button id="upload">Upload Image</button>
+    </div>
   </div>
-  <script src="./assets/app.js"></script>
+
+<script>
+async function api(path, data){
+  const res = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify(data||{})
+  });
+  return res.json();
+}
+
+document.getElementById('register').onclick = async ()=>{
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const r = await api('/api/register', { email, password });
+  if(r.ok) {
+    document.getElementById('user-info').innerText = 'Logged in as ' + r.email;
+    document.getElementById('logout').style.display = 'inline-block';
+  } else alert(JSON.stringify(r));
+};
+
+document.getElementById('login').onclick = async ()=>{
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const r = await api('/api/login', { email, password });
+  if(r.ok) {
+    document.getElementById('user-info').innerText = 'Logged in as ' + r.email;
+    document.getElementById('logout').style.display = 'inline-block';
+  } else alert(JSON.stringify(r));
+};
+
+document.getElementById('logout').onclick = async ()=>{
+  await api('/api/logout');
+  document.getElementById('user-info').innerText = 'Not logged in';
+  document.getElementById('logout').style.display = 'none';
+};
+
+document.getElementById('send').onclick = async ()=>{
+  const m = document.getElementById('msg').value;
+  document.getElementById('chat').innerHTML += '<div><b>You:</b> '+m+'</div>';
+  const r = await api('/api/chat', { message: m });
+  document.getElementById('chat').innerHTML += '<div><b>AI:</b> '+(r.reply||r.error)+'</div>';
+};
+
+document.getElementById('unlock').onclick = async ()=>{
+  const key = document.getElementById('unlockKey').value;
+  const r = await api('/api/unlock', { key });
+  if(r.ok) alert('Premium unlocked'); else alert(JSON.stringify(r));
+};
+
+document.getElementById('upload').onclick = async ()=>{
+  const input = document.getElementById('file');
+  if(!input.files.length) return alert('Choose file');
+  const fd = new FormData();
+  fd.append('file', input.files[0]);
+  const res = await fetch('/api/image', { method:'POST', body: fd });
+  const data = await res.json();
+  alert(JSON.stringify(data));
+};
+</script>
 </body>
 </html>

@@ -1,46 +1,41 @@
+# Ayush Ultra AI (Darshan AI)
 
-Master of Universe AI — Final Starter Pack
-=========================================
+This is a deploy-ready skeleton for **Ayush Ultra AI (Darshan AI)** built to be deployable to platforms like Vercel or Render.
+It contains:
+- Node.js + Express backend (server.js)
+- Static frontend (public/)
+- Mock login (email/password) and session management (simple)
+- AI endpoint placeholders that use `OPENAI_API_KEY` from environment variables
+- `.env.example` for required environment variables
+- `README-deploy.md` with deployment steps and environment variables instructions
 
-This package is a deployable starter for the "Master of Universe AI" app.
-It includes a frontend (static) and a Node.js backend with routes for many features.
-Each route uses OpenAI if OPENAI_API_KEY is present in server/.env, otherwise returns safe mock responses.
+> IMPORTANT: Replace the placeholder `OPENAI_API_KEY` in the environment with your real OpenAI API key.
+> The AI endpoints are placeholders that call OpenAI APIs if the key is provided.
 
-Structure
----------
-master-universe-ai/
-  frontend/
-    index.html
-    assets/style.css
-    assets/app.js
-  backend/
-    server.js
-    routes/tutor.js
-    routes/doctor.js
-    routes/coding.js
-    routes/mentor.js
-    routes/designer.js
-    routes/business.js
-    routes/social.js
-    package.json
-    .env.example
-  features/ (notes & placeholders)
-  LICENSE (MIT)
+## Quick local run (development)
+1. Install dependencies:
+```bash
+npm install
+```
+2. Copy environment example:
+```bash
+cp .env.example .env
+# edit .env to add values (OPENAI_API_KEY, SECRET_KEY, MASTER_KEY for premium)
+```
+3. Start server:
+```bash
+npm start
+```
+4. Open `http://localhost:3000` in your browser.
 
-Quick start (local)
--------------------
-1. Extract the ZIP.
-2. Start backend:
-   cd backend
-   npm install
-   cp .env.example .env   # edit .env and set OPENAI_API_KEY if you have one
-   node server.js
-3. Serve frontend (in a separate terminal):
-   npx http-server ../frontend -p 8080   # from backend folder
-   Open http://localhost:8080
+## Vercel deploy notes
+- For best compatibility, create a Vercel project and connect your GitHub repository (push this project).
+- Add environment variables in Vercel dashboard:
+  - `OPENAI_API_KEY` - your OpenAI API key
+  - `SECRET_KEY` - random secret for session signing
+  - `MASTER_KEY` - key string to unlock premium features (Master of Universe app)
+- Build & Start commands:
+  - Build: `npm install && npm run build` (build is a no-op in this skeleton)
+  - Start: `npm start`
 
-Notes & Safety
-----------------
-- Do NOT commit your real API keys into public repos.
-- The medical endpoints are informational only — show disclaimer and suggest consulting professionals.
-- This package is a starter: replace placeholders, models and UIs as needed.
+See `README-deploy.md` for step-by-step Vercel instructions.
