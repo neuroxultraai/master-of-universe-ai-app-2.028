@@ -1,41 +1,21 @@
-# Ayush Ultra AI (Darshan AI)
+# Ayush Ultra AI App - Complete Package (Production-ready scaffolding)
 
-This is a deploy-ready skeleton for **Ayush Ultra AI (Darshan AI)** built to be deployable to platforms like Vercel or Render.
-It contains:
-- Node.js + Express backend (server.js)
-- Static frontend (public/)
-- Mock login (email/password) and session management (simple)
-- AI endpoint placeholders that use `OPENAI_API_KEY` from environment variables
-- `.env.example` for required environment variables
-- `README-deploy.md` with deployment steps and environment variables instructions
+This package aims to be fully complete in structure and implementation **except** for secrets and external infra that must be provided by you:
+- AI provider API keys (OpenAI/Gemini/etc.) as environment variables
+- Firebase project config & `serviceAccountKey.json`
+- TURN/STUN & media server for real-time streaming (if needed)
+- Payment gateway credentials (Google Play Billing server-side verification / Stripe / Razorpay)
 
-> IMPORTANT: Replace the placeholder `OPENAI_API_KEY` in the environment with your real OpenAI API key.
-> The AI endpoints are placeholders that call OpenAI APIs if the key is provided.
+What is included:
+- Frontend UI (responsive)
+- Node.js/Express server with secure API proxy endpoints (AI proxy, payments, webhooks)
+- Firebase integration placeholders and admin SDK wiring (service account)
+- Cloud Functions example scripts (for reference)
+- Payment webhook stubs & subscription verification sample
+- Unit test scaffolding (basic tests)
+- Lint & run scripts
+- Detailed README with exact steps to replace secrets and deploy
 
-## Quick local run (development)
-1. Install dependencies:
-```bash
-npm install
-```
-2. Copy environment example:
-```bash
-cp .env.example .env
-# edit .env to add values (OPENAI_API_KEY, SECRET_KEY, MASTER_KEY for premium)
-```
-3. Start server:
-```bash
-npm start
-```
-4. Open `http://localhost:3000` in your browser.
+IMPORTANT: Add your secrets into `.env` or your deployment environment. Never commit service account keys to public repos.
 
-## Vercel deploy notes
-- For best compatibility, create a Vercel project and connect your GitHub repository (push this project).
-- Add environment variables in Vercel dashboard:
-  - `OPENAI_API_KEY` - your OpenAI API key
-  - `SECRET_KEY` - random secret for session signing
-  - `MASTER_KEY` - key string to unlock premium features (Master of Universe app)
-- Build & Start commands:
-  - Build: `npm install && npm run build` (build is a no-op in this skeleton)
-  - Start: `npm start`
-
-See `README-deploy.md` for step-by-step Vercel instructions.
+Features included: See FEATURES.md
